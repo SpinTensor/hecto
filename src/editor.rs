@@ -16,18 +16,21 @@ impl Editor {
                         if c.is_control() {
                             println!("{:?}\r", c as u8);
                         } else {
-                            println!("{:?} ({})\r", c as u8, c);
+                            println!("{:?} ({c})\r", c as u8);
                         }
                     }
                     Key::Ctrl('q') => break,
-                    _ => println!("{:?}\r", key),
+                    _ => println!("{key:?}\r"),
                 },
-                Err(err) => die(err),
+                Err(err) => die(&err),
             }
         } 
     }
+    pub fn default() -> Self {
+        Self{}
+    }
 }
 
-fn die(e: std::io::Error) {
+fn die(e: &std::io::Error) {
     panic!("{}", e);
 }
