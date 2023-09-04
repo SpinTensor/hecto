@@ -40,8 +40,21 @@ impl Editor {
     }
     
     fn refresh_screen(&self) -> Result<(), std::io::Error> {
-        print!("{}", termion::clear::All);
+        print!("{}{}", termion::clear::All, termion::cursor::Goto(1,1));
+        match self.should_quit {
+            true => println!("Goodbye.\r"),
+            false => {
+                self.draw_rows();
+                print!("{}", termion::cursor::Goto(1,1));
+            }
+        }
         io::stdout().flush()
+    }
+
+    fn draw_rows(&self) {
+        for _ in 0..24 {
+            println!("~\r");
+        }
     }
 
     fn read_key() -> Result<Key, std::io::Error> {
